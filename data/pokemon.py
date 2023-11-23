@@ -15,22 +15,16 @@ def get_data_from(filename):
 
     with open(path) as f:
         reader = csv.DictReader(f)
-        data = list(
+        data = [
             {k: int(v) if isnumber(v) else v for k, v in row.items()}
             for row in reader
-            )
+        ]
 
     return data
 
 def get_pokemon():
     species = [None] + get_data_from("pokemon.csv")
-    pokemon = []
-
-    for row in species[1:]:
-        if "enabled" not in row:
-            continue
-        pokemon.append(row["name.en"].lower())
-    return pokemon
+    return [row["name.en"].lower() for row in species[1:] if "enabled" in row]
 
 class DataManager:
     def __init__(self):
