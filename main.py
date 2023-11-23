@@ -30,17 +30,14 @@ async def shutdown(signal, running_bots):
 async def wrapped_connect(entry):
     try:
         await entry.client.start(entry.token, bot = False)
-        print('Logged in as {}'.format(entry))
+        print(f'Logged in as {entry}')
     finally:
         print("Clean close of client")
         await entry.client.close()
         print('You are using the free version of the catcher by someone you know!')
 
 try:
-    running_bots = []
-    for entry in entries:
-        running_bots.append(loop.create_task(wrapped_connect(entry)))
-
+    running_bots = [loop.create_task(wrapped_connect(entry)) for entry in entries]
     for s in signals:
         loop.add_signal_handler(s, lambda s = s: asyncio.create_task(shutdown(s, running_bots)))
 
