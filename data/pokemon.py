@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 import csv
-import config
+
 
 def isnumber(v):
     try:
